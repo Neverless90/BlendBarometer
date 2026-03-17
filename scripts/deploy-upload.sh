@@ -50,6 +50,20 @@ if [ "${FTP_PROTOCOL}" = "sftp" ] && [ "${FTP_PORT}" != "22" ]; then
   echo "WARN: SFTP usually uses port 22. Current port is '${FTP_PORT}'." >&2
 fi
 
+# ── Diagnostics: count & size of payload ──────────────────────
+PAYLOAD_FILES=$(find . -not -path './.git/*' -not -name '.git' -type f | wc -l)
+PAYLOAD_SIZE=$(du -sh . 2>/dev/null | cut -f1)
+echo "==> [DIAG] Payload file count : ${PAYLOAD_FILES}"
+echo "==> [DIAG] Payload total size : ${PAYLOAD_SIZE}"
+echo "==> [DIAG] Largest directories in payload:"
+du -sh -- */ 2>/dev/null | sort -rh | head -20 || true
+echo "==> [DIAG] File-count per top-level directory:"
+for d in */; do
+  [ -d "${d}" ] || continue
+  cnt=$(find "${d}" -type f | wc -l)
+  echo "         ${cnt}  ${d}"
+done
+
 lftp -u "${FTP_USER}","${FTP_PASSWORD}" "${FTP_PROTOCOL}://${FTP_HOST}:${FTP_PORT}" -e \
   "set cmd:fail-exit yes; \
    ${PROTOCOL_SETTINGS} \
