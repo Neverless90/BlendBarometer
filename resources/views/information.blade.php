@@ -55,6 +55,9 @@
 
         <section class="py-4">
             <h2 class="fs-4">Module gegevens</h2>
+            @if (!empty($moduleDescription))
+                <div class="mb-3">{!! $moduleDescription !!}</div>
+            @endif
             <div class="row w-50">
                 <div class="col pe-0">
                     <label for="module">Module</label>

@@ -45,6 +45,8 @@ class EditContentController
             "results" => Content::where('section_name', 'intermediate_results')->select('info', 'show')->first(),
         ];
 
+        $informationModuleDescription = Content::where('section_name', 'information_module_description')->value('info');
+
         $legenda = Graph_legenda::all();
         $moduleLevelAnswers = Module_level_answer::all();
 
@@ -59,6 +61,7 @@ class EditContentController
                 'tab' => $tab,
                 'home' => $home,
                 'intermediateContent' => $intermediateContent,
+                'informationModuleDescription' => $informationModuleDescription,
                 'lessonLevelPhysicalSubcategories' => $lessonLevelPhysicalSubcategories, 
                 'lessonLevelOnlineSubcategories' => $lessonLevelOnlineSubcategories,
                 'generalLessonLevelDescription' => $generalLessonLevelDescription,
@@ -77,6 +80,16 @@ class EditContentController
 
         Content::where('section_name', 'intro_description')->update(['info' => $request->input('content')]);
         return redirect()->route('admin.edit-content');
+    }
+
+    public function updateInformationModuleContent(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'content' => ['required'],
+        ]);
+
+        Content::where('section_name', 'information_module_description')->update(['info' => $request->input('content')]);
+        return redirect()->route('admin.edit-content', ['tab' => 'information']);
     }
 
     public function updateChartContent(Request $request)

@@ -13,9 +13,11 @@ class InformationController extends Controller
         $academies = Academy::all();
         $intermediate = Content::where('section_name', 'intermediate_information')->firstOrFail();
         $previous = $intermediate->show ? route('intermediate.view', 'gegevens') : route('home');
+        $moduleDescription = Content::where('section_name', 'information_module_description')->value('info');
         return view('information', [
             'academies' => $academies,
             'previous' => $previous,
+            'moduleDescription' => $moduleDescription,
         ]);
     }
 

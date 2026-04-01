@@ -73,6 +73,10 @@
                     show="{{ $intermediateContent['information']->show }}"
                     section="information"
                 />
+                <hr class="my-4">
+                <x-admin.edit-content.information-module
+                    :moduleDescription="$informationModuleDescription ?? null"
+                />
             </div>
             <div class="tab-pane fade {{ !(isset($tab) && $tab === 'lesson') ?: 'show active' }}" id="lesson-tab-pane"
                  role="tabpanel"

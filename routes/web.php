@@ -103,6 +103,8 @@ Route::middleware([Authenticate_admin::class])->name('admin.')->prefix('admin')-
 
     Route::put('/content-bewerken/homepagina-opslaan', [EditContentController::class, 'updateHomeContent'])->name('edit-content.home-update');
 
+    Route::put('/content-bewerken/gegevens-module-opslaan', [EditContentController::class, 'updateInformationModuleContent'])->name('edit-content.information-module-update');
+
     Route::put('/content-bewerken/grafiekomschrijving-opslaan', [EditContentController::class, 'updateChartContent'])->name('edit-content.chart-update');
     Route::put('/content-bewerken/tussenpagina-opslaan/{section}', [EditContentController::class, 'updateIntermediateContent'])->name('edit-content.intermediate-update');
 

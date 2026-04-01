@@ -13,6 +13,7 @@ class Content extends Model
         'id',
         'section_name',
         'info',
+        'show',
     ];
 
     public function formSections()

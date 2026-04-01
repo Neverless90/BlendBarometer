@@ -111,6 +111,11 @@ class ContentSeeder extends Seeder
                 'info' => '<strong>Let op:</strong> Op de volgende pagina worden de grafieken weergegeven die de resultaten van de ingevulde onderdelen visualiseren. Deze grafieken bieden een overzicht van de huidige status en helpen bij het bepalen van de vervolgstappen.',
                 'show' => true,
             ],
+            [
+                'section_name' => 'information_module_description',
+                'info' => '<p>Vul hieronder de naam van de module in en geef een korte samenvatting van de module.</p>',
+                'show' => true,
+            ],
         ]);
     }
 }
