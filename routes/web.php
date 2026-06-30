@@ -44,7 +44,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::get('/resultaten', [ResultsController::class, 'view'])->name('results');
     Route::get('/overzicht-en-versturen', [ResultsController::class, 'overviewAndSendView'])->name('overview-and-send');
 
-    Route::get('/versturen', [ReportController::class, 'sendReport'])->name('send');
+    Route::post('/versturen', [ReportController::class, 'sendReport'])->name('send');
     Route::get('/tussenpagina/{sectionName}', [IntermediateController::class, 'view'])->name('intermediate.view');
 });
 
@@ -61,23 +61,23 @@ Route::middleware([Authenticate_admin::class])->name('admin.')->prefix('admin')-
         ->name('academies.')
         ->controller(\App\Http\Controllers\admin\AcademyController::class)
         ->group(function () {
-            Route::get('/',        'index' )->name('index');
+            Route::get('/',        'index')->name('index');
             Route::get('create',   'create')->name('create');
-            Route::post('/',       'store' )->name('store');
-            Route::get('{academy}/edit', 'edit'  )->name('edit');
+            Route::post('/',       'store')->name('store');
+            Route::get('{academy}/edit', 'edit')->name('edit');
             Route::put('{academy}',       'update')->name('update');
             Route::delete('{academy}',    'destroy')->name('destroy');
         });
 
     Route::prefix('email-rules')
-         ->name('email-rules.')
-         ->controller(EmailRuleController::class)
-         ->group(function () {
-            Route::get('/',           'index'        )->name('index');
-            Route::post('/',          'store'        )->name('store');
+        ->name('email-rules.')
+        ->controller(EmailRuleController::class)
+        ->group(function () {
+            Route::get('/',           'index')->name('index');
+            Route::post('/',          'store')->name('store');
             Route::patch('/academy',  'changeAcademy')->name('change');
-            Route::delete('{rule}',   'destroy'      )->name('destroy');
-         });
+            Route::delete('{rule}',   'destroy')->name('destroy');
+        });
 
     Route::get('/vragen-bewerken/lesniveau', [EditLessonQuestionController::class, 'index'])->name('edit-lesson-questions');
     Route::put('/vragen-bewerken/lesniveau/{question}/update', [EditLessonQuestionController::class, 'updateQuestion'])->name('edit-lesson-questions.update');

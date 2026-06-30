@@ -497,9 +497,16 @@ class ReportController extends Controller
             $page->addText('Grafiek niet gevonden.');
         }
 
-        $subCategories = Sub_category::orderBy('id')->get();
+        $subCategories = Sub_category::select('id', 'name', 'question_category_id')
+            ->whereIn('question_category_id', [1, 2])
+            ->orderBy('id')
+            ->get()
+            ->groupBy('name');
 
-        foreach ($subCategories as $subCategory) {
+        foreach ($subCategories as $activityName => $subCategoryGroup) {
+            $physicalSubCategory = $subCategoryGroup->firstWhere('question_category_id', 1);
+            $onlineSubCategory = $subCategoryGroup->firstWhere('question_category_id', 2);
+
             $page = $this->createPage($phpWord);
             $this->addStandardHeaderFooter($page);
 
@@ -514,7 +521,7 @@ class ReportController extends Controller
             $graphTable->addRow();
 
             $tempId = $this->sessionInfo->sessionUid;
-            $cleanedName = trim(Whitespace::replaceAll((string) $subCategory->name, '-'), '-');
+            $cleanedName = trim(Whitespace::replaceAll((string) $activityName, '-'), '-');
             $physicalImagePath = Storage::disk('public')->path("images/temp/{$tempId}_physical{$cleanedName}.png");
             $onlineImagePath = Storage::disk('public')->path("images/temp/{$tempId}_online{$cleanedName}.png");
 
@@ -537,8 +544,14 @@ class ReportController extends Controller
             ];
 
             $page->addTextBreak(1);
-            $page->addText($subCategory->name . ':', ['bold' => true, 'size' => 12]);
-            $description = GraphDescription::where('sub_category_id', $subCategory->id)->first();
+            $page->addText($activityName . ':', ['bold' => true, 'size' => 12]);
+            $description = null;
+            if ($physicalSubCategory) {
+                $description = GraphDescription::where('sub_category_id', $physicalSubCategory->id)->first();
+            }
+            if ($description === null && $onlineSubCategory) {
+                $description = GraphDescription::where('sub_category_id', $onlineSubCategory->id)->first();
+            }
             if ($description) {
                 $page->addTextBox($textboxStyle)
                     ->addText($description->description);

@@ -41,10 +41,21 @@ function wrapLabel(label, maxCharsPerLine = 14) {
     return lines.length === 1 ? lines : lines;
 }
 
+function createOrReplaceChart(canvas, config) {
+    if (!canvas) return null;
+
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+
+    return new Chart(canvas, config);
+}
+
 const lessonLevelGraph = document.getElementById('lessonLevel');
 
 Chart.defaults.font.size = 16;
-new Chart(lessonLevelGraph, {
+createOrReplaceChart(lessonLevelGraph, {
     type: 'radar',
     data: {
         labels: lessonLevelSubcategories.map(c => c.name),
@@ -158,7 +169,7 @@ for (const category of lessonLevelSubcategories) {
         categoryData = Object.values(lessonLevelDataAll[subCatId]).map(Number);
     }
 
-    new Chart(graph, {
+    createOrReplaceChart(graph, {
         type: 'bar',
         data: {
             labels: normalizedCategoryLabels.map(l => wrapLabel(l, 14)),
@@ -273,7 +284,7 @@ for (const category of lessonLevelOnlineSubcategories) {
         categoryData = Object.values(lessonLevelDataAll[subCatId]).map(Number);
     }
 
-    new Chart(graph, {
+    createOrReplaceChart(graph, {
         type: 'bar',
         data: {
             labels: normalizedCategoryLabelsOnline.map(l => wrapLabel(l, 14)),
@@ -446,7 +457,7 @@ for (const [key, value] of Object.entries(moduleLevelDataArray)) {
     innerColors.push(color);
 }
 
-new Chart(moduleLevelCategoriesGraph, {
+createOrReplaceChart(moduleLevelCategoriesGraph, {
     type: 'doughnut',
     data: {
         labels: outerLabels,
@@ -513,7 +524,7 @@ new Chart(moduleLevelCategoriesGraph, {
     }
 });
 
-new Chart(moduleLevelDataGraph, {
+createOrReplaceChart(moduleLevelDataGraph, {
     type: 'pie',
     data: {
         labels: innerLabels,
