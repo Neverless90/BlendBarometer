@@ -617,8 +617,8 @@ class ReportController extends Controller
         imagepng($finalImage, $combinedPath);
 
         $page->addImage($combinedPath, [
-            'width' => 350,
-            'height' => 350,
+            'width' => 280,
+            'height' => 280,
             'alignment' => Jc::CENTER,
         ]);
 
@@ -648,17 +648,17 @@ class ReportController extends Controller
         for ($j = 0; $j < count($items); $j += 2) {
             $legend->addRow();
 
-            $legend->addCell(300)->addText((string)$j + 1, $this->labelStyle);
-            $legend->addCell(4000)->addText($this->sanitizeText($items[$j]), $this->valueStyle);
+            $legend->addCell(300)->addText((string)$j + 1, ['color' => '888888', 'size' => 9]);
+            $legend->addCell(4000)->addText($this->sanitizeText($items[$j]), ['bold' => true, 'size' => 9]);
 
             $legend->addCell($this->paddingWidth)->addText('', []);
 
             if (isset($items[$j + 1])) {
-                $legend->addCell(300)->addText((string)$j + 2, $this->labelStyle);
-                $legend->addCell(4000)->addText($this->sanitizeText($items[$j + 1]), $this->valueStyle);
+                $legend->addCell(300)->addText((string)$j + 2, ['color' => '888888', 'size' => 9]);
+                $legend->addCell(4000)->addText($this->sanitizeText($items[$j + 1]), ['bold' => true, 'size' => 9]);
             } else {
-                $legend->addCell(200)->addText('', $this->labelStyle);
-                $legend->addCell(5000)->addText('', $this->valueStyle);
+                $legend->addCell(200)->addText('', ['color' => '888888', 'size' => 9]);
+                $legend->addCell(5000)->addText('', ['bold' => true, 'size' => 9]);
             }
         }
     }
