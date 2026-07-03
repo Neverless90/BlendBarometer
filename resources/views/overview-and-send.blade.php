@@ -7,7 +7,7 @@
     <h1>Overzicht en versturen</h1>
     <p>Je staat op het punt de resultaten van dit formulier definitief te versturen</p>
 
-    <form method="get" action="{{ route('send') }}">
+    <form method="post" action="{{ route('send') }}">
         @csrf
 
         <div class="d-flex gap-3 justify-content-end mt-2">
@@ -28,14 +28,5 @@
             submitButton.disabled = true;
             submitButton.innerHTML = '<div class="spinner-border" style="height: 1rem; width: 1rem" role="status"></div><span class="ms-2">Bezig...</span>';
         });
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                const submitButton = document.querySelector('button.btn-primary');
-
-                if (submitButton) {
-                    submitButton.click();
-                }
-            }
-        })
     </script>
 </x-progress-step>
